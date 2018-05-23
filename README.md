@@ -1,4 +1,4 @@
-## handle a variety of dataset, the basic idea is just to get the dataset in a convinient way and, most importantly, without any data transformation
+## handle a variety of dataset, the basic idea is just to get the dataset in a convenient way and, most importantly, without any data transformation
 
 ## minist:
 Get from chainer's dataset module, the resulting images is 0-255 uint8 numpy matrix, saved into pyarrow zero-copy data type
