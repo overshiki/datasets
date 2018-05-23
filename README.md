@@ -3,7 +3,7 @@
 ## minist:
 Get from chainer's dataset module, the resulting images is 0-255 uint8 numpy matrix, saved into pyarrow zero-copy data type
 usage:
-```
+```python
 from dataset.minist.feed import feed
 path = "./save/"
 feed(feed_path=path)
@@ -11,7 +11,7 @@ feed(feed_path=path)
 then training data will be stored in ./save/X.pa, the training label will be stored in ./save/Y.pa
 
 to load the data into numpy, try:
-```
+```python
 from dataset import pa2np
 X, Y = pa2np("./save/X.pa"), pa2np("./save/Y.pa")
 ```
@@ -21,7 +21,7 @@ Get from chainer's dataset moduel, the resulting image is 0-255 uint8 numpy matr
 usage:
 
 for cifar-10
-```
+```python
 from dataset.cifar.feed import feed
 path = "./save/"
 feed(feed_path=path, dataset_type=10)
@@ -29,7 +29,7 @@ feed(feed_path=path, dataset_type=10)
 then training data will be stored in ./save/X_10.pa, the training label will be stored in ./save/Y_10.pa
 
 for cifar-100
-```
+```python
 from dataset.cifar.feed import feed
 path = "./save/"
 feed(feed_path=path, dataset_type=100)
