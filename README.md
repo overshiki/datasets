@@ -37,3 +37,25 @@ feed(feed_path=path, dataset_type=100)
 then training data will be stored in ./save/X_100.pa, the training label will be stored in ./save/Y_100.pa
 
 To load the data, see that in mnist above
+
+## coil-20
+the resulting image is 0-255 uint8 numpy matrix, saved into pyarrow zero-copy data type
+usage:
+
+for unprocessed
+```python
+from dataset.coil20.feed import feed
+path = "./save/"
+feed(feed_path=path, dataset_type='unprocessed')
+```
+then training data will be stored in ./save/X_unprocessed.pa, the training label will be stored in ./save/Y_unprocessed.pa
+
+for processed
+```python
+from dataset.coil20.feed import feed
+path = "./save/"
+feed(feed_path=path, dataset_type='processed')
+```
+then training data will be stored in ./save/X_processed.pa, the training label will be stored in ./save/Y_processed.pa
+
+To load the data, see that in mnist above
