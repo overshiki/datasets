@@ -17,8 +17,7 @@ X, Y = pa2np("./save/X.pa"), pa2np("./save/Y.pa")
 ```
 sample of resulting dataset:
 
-![](./data/mnist.png)
-
+<img src='./data/mnist.png'  width="200">
 
 ## cifar
 Get from chainer's dataset moduel, the resulting image is 0-255 uint8 numpy matrix, saved into pyarrow zero-copy data type
@@ -34,8 +33,7 @@ then training data will be stored in ./save/X_10.pa, the training label will be 
 
 sample of resulting dataset:
 
-![](./data/cifar_10.png)
-
+<img src='./data/cifar_10.png'  width="200">
 
 for cifar-100
 ```python
@@ -47,7 +45,7 @@ then training data will be stored in ./save/X_100.pa, the training label will be
 
 sample of resulting dataset:
 
-![](./data/cifar_100.png)
+<img src='./data/cifar_100.png'  width="200">
 
 To load the data, see that in mnist above
 
@@ -67,8 +65,7 @@ then training data will be stored in ./save/X_unprocessed.pa, the training label
 
 sample of resulting dataset:
 
-![](./data/coil20-unprocessed.png)
-
+<img src='./data/coil20-unprocessed.png'  width="200">
 
 
 for processed
@@ -83,4 +80,21 @@ To load the data, see that in mnist above
 
 sample of resulting dataset:
 
-![](./data/coil20-processed.png)
+<img src='./data/coil20-processed.png'  width="200">
+
+
+## fer2013
+the resulting image is 0-255 uint8 numpy matrix, saved into pyarrow zero-copy data type
+usage:
+
+for unprocessed
+```python
+from dataset.fer2013.feed import feed
+path = "./save/"
+feed(feed_path=path)
+```
+then training data will be stored in ./save/X.pa, the training label will be stored in ./save/Y.pa
+
+sample of resulting dataset:
+
+<img src='./data/fer2013.png'  width="200">
