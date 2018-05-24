@@ -2,6 +2,7 @@
 
 ## minist:
 Get from chainer's dataset module, the resulting images is 0-255 uint8 numpy matrix, saved into pyarrow zero-copy data type
+
 usage:
 ```python
 from dataset.minist.feed import feed
@@ -21,6 +22,7 @@ sample of resulting dataset:
 
 ## cifar
 Get from chainer's dataset moduel, the resulting image is 0-255 uint8 numpy matrix, saved into pyarrow zero-copy data type
+
 usage:
 
 for cifar-10
@@ -53,6 +55,7 @@ To load the data, see that in mnist above
 
 ## coil-20
 the resulting image is 0-255 uint8 numpy matrix, saved into pyarrow zero-copy data type
+
 usage:
 
 for unprocessed
@@ -85,9 +88,9 @@ sample of resulting dataset:
 
 ## fer2013
 the resulting image is 0-255 uint8 numpy matrix, saved into pyarrow zero-copy data type
+
 usage:
 
-for unprocessed
 ```python
 from dataset.fer2013.feed import feed
 path = "./save/"
