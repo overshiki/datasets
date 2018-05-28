@@ -3,12 +3,9 @@ from chainer.dataset import download as dl
 import zipfile
 import numpy as np
 import tempfile, os, shutil, cv2, re
+from ..general.utils import imreadBGR
 
 
-def imreadBGR(path):
-	'''use opencv to load jpeg, png image as numpy arrays, the speed is triple compared with skimage
-	'''
-	return cv2.imread(path,3)
 
 def download(dataset_type='unprocessed'):
 	if dataset_type=='unprocessed':

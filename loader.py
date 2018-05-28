@@ -1,7 +1,7 @@
 import numpy as np
 from timeit import default_timer as timer
-from general.serialize import pa2np
-from general.utils import groupby, imwrite, rescale_intensity
+from .general.serialize import pa2np
+from .general.utils import groupby, imwrite, rescale_intensity
 
 
 class loader:
@@ -11,7 +11,9 @@ class loader:
 		self.Y = pa2np(Y_path).astype('int32')
 		if self.X.ndim==3:
 			self.X = np.expand_dims(self.X, 1)
-		print("loading time: ", timer()-end)
+		print("finished loading, loading time: ", timer()-end)
+		print("the resulting dataset: \n X_shape: {} \n X_range: {} \n X_dtype: {} \n Y_shape: {} \n Y_range: {} \n Y_dtype: {}".format(self.X.shape, str(self.X.min())+"-"+str(self.X.max()), self.X.dtype, self.Y.shape, str(self.Y.min())+"-"+str(self.Y.max()), self.Y.dtype))
+		print("enjoy! \n")
 		self.minibatch = minibatch
 
 	def get(self):
@@ -21,7 +23,7 @@ class loader:
 			yield self.X[group], self.Y[group]
 
 
-from general.utils import imwrite, rescale_intensity, patch_interface
+from .general.utils import imwrite, rescale_intensity, patch_interface
 def data_checker_mask(loader):
 	X, Y = next(loader.get())
 	X, Y = X[:100].squeeze(), Y[:100]

@@ -1,4 +1,3 @@
-# from chainer.dataset import download as dl
 from subprocess import call
 import tarfile, os, tempfile, shutil
 import pandas as pd
@@ -6,7 +5,7 @@ import numpy as np
 
 def download():
 	param_list = ["kaggle", "competitions", "download", "-c", "challenges-in-representation-learning-facial-expression-recognition-challenge"]
-	# call(param_list)
+	call(param_list)
 	archive_path = os.path.expanduser("~/.kaggle/competitions/challenges-in-representation-learning-facial-expression-recognition-challenge/fer2013.tar.gz")
 	with tarfile.open(archive_path, 'r:gz') as archive:
 		names = archive.getnames()

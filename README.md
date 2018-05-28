@@ -85,14 +85,15 @@ sample of resulting dataset:
 
 <img src='./data/coil20-processed.png'  width="200">
 
-
+# kaggle:
+below are some kaggle dataset
 ## fer2013
 the resulting image is 0-255 uint8 numpy matrix, saved into pyarrow zero-copy data type
 
 usage:
 
 ```python
-from dataset.fer2013.feed import feed
+from dataset.kaggle.fer2013.feed import feed
 path = "./save/"
 feed(feed_path=path)
 ```
@@ -101,3 +102,15 @@ then training data will be stored in ./save/X.pa, the training label will be sto
 sample of resulting dataset:
 
 <img src='./data/fer2013.png'  width="200">
+
+
+## whales2018
+the resulting image and correponding label is save into dict object
+
+usage:
+
+```python
+from dataset.kaggle.whales2018.feed import feed
+path = "./save/"
+feed(feed_path=path)
+```

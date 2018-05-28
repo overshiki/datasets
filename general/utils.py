@@ -1,7 +1,25 @@
 import math
 import numpy as np
-import cv2, os
+import cv2, os, re, pickle
 from skimage.exposure import rescale_intensity
+
+def save_obj(name, obj):
+	if(not re.search('.pkl', name)):
+		name = name+'.pkl'
+	with open(name, 'wb') as f:
+		pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
+
+def load_obj(name):
+	if(not re.search('.pkl', name)):
+		name = name+'.pkl'
+	with open(name, 'rb') as f:
+		return pickle.load(f)
+
+
+def imreadBGR(path):
+	'''use opencv to load jpeg, png image as numpy arrays, the speed is triple compared with skimage
+	'''
+	return cv2.imread(path,3)
 
 def mkdir(_dir):
 	if not os.path.exists(_dir):
