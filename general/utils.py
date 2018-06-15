@@ -2,6 +2,7 @@ import math
 import numpy as np
 import cv2, os, re, pickle
 from skimage.exposure import rescale_intensity
+import tifffile
 
 def save_obj(name, obj):
 	if(not re.search('.pkl', name)):
@@ -15,6 +16,8 @@ def load_obj(name):
 	with open(name, 'rb') as f:
 		return pickle.load(f)
 
+def imreadTif(path):
+	return tifffile.imread(path)
 
 def imreadBGR(path):
 	'''use opencv to load jpeg, png image as numpy arrays, the speed is triple compared with skimage
@@ -22,8 +25,19 @@ def imreadBGR(path):
 	return cv2.imread(path,3)
 
 def mkdir(_dir):
-	if not os.path.exists(_dir):
-		os.makedirs(_dir)
+	r'''
+	recursively make dir
+	'''
+
+	def _mkdir(feed_path, sub_path):
+		if not os.path.exists(feed_path):
+			_mkdir(os.path.split(feed_path)[0], os.path.split(feed_path)[1])
+		else:
+			if not os.path.exists(feed_path+"/"+sub_path):
+				os.mkdir(feed_path+"/"+sub_path)
+				_mkdir(_dir, "/")
+
+	_mkdir(_dir, "/")
 
 def patch_interface(pos_x, pos_y, half_size_x, half_size_y):
 	pos_x_left = pos_x - half_size_x

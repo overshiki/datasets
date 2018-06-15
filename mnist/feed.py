@@ -1,7 +1,7 @@
 import chainer
 import numpy as np
 from ..general.utils import groupby
-from ..general.serialize import data2pa
+from ..general.serialize import data2pa, pa2np
 import os
 
 def feed(feed_path="/media/nvme0n1/DATA/TRAININGSETS/mnist/"):
@@ -20,3 +20,10 @@ def feed(feed_path="/media/nvme0n1/DATA/TRAININGSETS/mnist/"):
 
 	data2pa(feed_path+"X.pa", data)
 	data2pa(feed_path+"Y.pa", label)
+
+def load(load_path="/media/nvme0n1/DATA/TRAININGSETS/mnist/"):
+	if not os.path.exists(load_path+"X.pa") and os.path.exists(load_path+"Y.pa"):
+		raise ValueError("not files in load_path, please run feed() function first")
+
+	data, mask = pa2np(load_path+"X.pa"), pa2np(load_path+"Y.pa")
+	return data, mask

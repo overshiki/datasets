@@ -1,5 +1,10 @@
 ## handle a variety of dataset, the basic idea is just to get the dataset in a convenient way and, most importantly, without any data transformation
 
+
+### in general, the data is saved in the shape of N * C * X * Y
+
+
+
 ## minist:
 Get from chainer's dataset module, the resulting images is 0-255 uint8 numpy matrix, saved into pyarrow zero-copy data type
 
@@ -113,4 +118,15 @@ usage:
 from dataset.kaggle.whales2018.feed import feed
 path = "./save/"
 feed(feed_path=path)
+```
+
+
+## isbi 2012
+usage:
+```python
+from dataset.isbi.c2012.feed import feed, load 
+path="./save/"
+feed(feed_path=path)
+#to get data:
+data, mask = load(load_path=path)
 ```
