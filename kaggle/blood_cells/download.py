@@ -3,10 +3,16 @@ import zipfile, tempfile
 import os, shutil, re
 import pandas as pd
 import numpy as np
-from dataset.general.utils import imreadBGR, data2pa, groupby
+from dataset.general.utils import imreadBGR, groupby
+from dataset.general.serialize import data2pa
 import numpy as np
 import os
+import xml.etree.ElementTree as ET
 
+r'''
+for more info, please go to:
+https://www.kaggle.com/paultimothymooney/identify-blood-cell-subtypes-from-images
+'''
 def download(dataset_type=1):
 	param_list = ["kaggle", "datasets", "download", "-d", "paultimothymooney/blood-cells"]
 	if not os.path.exists(os.path.expanduser("~/.kaggle/datasets/paultimothymooney/blood-cells/dataset-master.zip")):
@@ -16,6 +22,11 @@ def download(dataset_type=1):
 		archive_path = os.path.expanduser("~/.kaggle/datasets/paultimothymooney/blood-cells/dataset-master.zip")
 	fileOb = zipfile.ZipFile(archive_path, mode='r')
 	names = fileOb.namelist()
+
+	# for name in names:
+	# 	if not bool(re.search("__MACOSX/dataset-master", name)):
+	# 		# if bool(re.search(name, "Annotations")):
+	# 		print(name)
 
 	names = list(filter(lambda x:re.search("dataset-master/JPEGImages/BloodImage", x), names))
 
@@ -31,19 +42,36 @@ def download(dataset_type=1):
 
 	try:
 		for name in names:
-			path = cache_path+"/"+name
+			print(name)
+			path = cache_path #+"/"+name
+			xml_path = path.replace("JPEGImages", "Annotations").replace(".jpg", ".xml")
+
+			print(xml_path)
+			print(fileOb.extract(name, path=path))
+
 			img = imreadBGR(fileOb.extract(name, path=path))
 			data.append(img)
-	# # 				label.append(int(name.split("__")[0].split("/obj")[1]))
+
+			xml = ET.parse(fileOb.extract(name.replace("JPEGImages", "Annotations").replace(".jpg", ".xml"), path=xml_path))
+			for elem in xml.iter():
+				print(elem)
+
+
+			raise ValueError()
 	finally:
 		shutil.rmtree(cache_root)
 
-	# final_dict = {}
-	# final_dict['labels'] = labels 
-	# final_dict['data'] = data 
-	# final_dict['key_value'] = id_dict
-	data = np.stack(data, axis=0).transpose([0, 3, 1, 2])
-	return data
+	# data = np.stack(data, axis=0).transpose([0, 3, 1, 2])
+
+
+
+
+
+	# tree = ET.parse('country_data.xml')
+	# root = tree.getroot()
+
+
+	# return data
 
 
 
@@ -58,5 +86,6 @@ def feed(feed_path="/media/nvme0n1/DATA/TRAININGSETS/fer2013/"):
 	data2pa(feed_path+"Y.pa", label)
 
 if __name__ == '__main__':
-	data = download()
-	print(data.shape)
+	download()
+	# data = download()
+	# print(data.shape)

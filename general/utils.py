@@ -1,6 +1,7 @@
 import math
 import numpy as np
-import cv2, os, re, pickle
+import cv2
+import os, re, pickle
 from skimage.exposure import rescale_intensity
 import tifffile
 
@@ -86,3 +87,58 @@ def imwrite(img,path):
 					img[:,:,i] = img[:,:,i]*65535
 	cv2.imwrite(path,img)
 
+
+def patch_interface(pos_x, pos_y, half_size_x, half_size_y, extra_add=0):
+	pos_x_left = pos_x - half_size_x
+	pos_x_left = np.expand_dims(pos_x_left, axis=0)
+	adding = np.expand_dims(np.arange(2*half_size_x+extra_add), 1)
+	pos_x = pos_x_left + adding
+
+	pos_y_left = pos_y - half_size_y
+	pos_y_left = np.expand_dims(pos_y_left, axis=0)
+	adding = np.expand_dims(np.arange(2*half_size_y+extra_add), 1)
+	pos_y = pos_y_left+adding
+
+	# x * y * N
+	# _x = img[pos_x[:, np.newaxis, :], pos_y]
+	return pos_x[:, np.newaxis, :], pos_y
+
+def random_crop(data, crop_times=10, crop_size=(15, 15)):
+	size_x, size_y = data.shape[2], data.shape[3]
+	window_x = (crop_size[0], size_x-crop_size[0])
+	window_y = (crop_size[1], size_y-crop_size[1])
+
+	data_stack = []
+	for i in range(crop_times):
+		centers_x = np.random.randint(window_x[0], window_x[1], len(data))
+		centers_y = np.random.randint(window_y[0], window_y[1], len(data))
+		
+		index_x, index_y = patch_interface(centers_x, centers_y, crop_size[0]//2, crop_size[1]//2)
+
+		# print(index_x.shape, index_y.shape)
+		temp = data[:, :, index_x, index_y]
+		# print(temp.shape)
+		data_stack.append(temp)
+
+
+	data_stack = np.concatenate(data_stack, axis=-1)
+
+	shape = data_stack.shape
+	pivot = [x for x in range(len(shape))]
+	lead = pivot.pop(0)
+	pivot.append(lead)
+	data_stack = data_stack.transpose(pivot)
+
+	shape = list(data_stack.shape)
+	end = shape.pop(-1)
+	end = end*shape.pop(-1)
+	shape.append(end)
+	data_stack = data_stack.reshape(*shape)
+
+	shape = data_stack.shape
+	pivot = [x for x in range(len(shape))]
+	lead = pivot.pop(-1)
+	pivot.insert(0, lead)
+	data_stack = data_stack.transpose(pivot)
+
+	return data_stack
